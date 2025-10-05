@@ -76,7 +76,8 @@ export default function MonitorPage() {
             </div>
             {dbData ? (
               <div style={{ overflow: 'auto' }}>
-                <ReactJson src={dbData} theme="rjv-default" collapsed={1} />
+                {/* 🔥 PERUBAHAN ADA DI BARIS INI */}
+                <ReactJson src={dbData} theme="rjv-default" collapsed={false} />
               </div>
             ) : (
               <p className="text-gray-500">Database ini kosong.</p>
@@ -86,4 +87,4 @@ export default function MonitorPage() {
       </div>
     </div>
   );
-}
+                  }
