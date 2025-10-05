@@ -1,4 +1,3 @@
-// pages/index.js
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 
@@ -14,8 +13,8 @@ export default function Home() {
           Platform database NoSQL. Simpan data Anda sebagai file JSON dengan mudah dan aman.
         </p>
         
-        {/* --- PERUBAHAN DIMULAI DI SINI --- */}
-        {/* Menampilkan dua tombol: Register dan Login */}
+        {}
+        {}
         <div className="space-x-4">
           <Link href="/register">
             <button className="bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg">
@@ -28,7 +27,7 @@ export default function Home() {
             </button>
           </Link>
         </div>
-        {/* --- PERUBAHAN BERAKHIR DI SINI --- */}
+        {}
         
       </main>
     </div>
