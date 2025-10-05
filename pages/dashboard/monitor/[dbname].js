@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../../../components/Navbar';
-import ReactJson from 'react-json-view';
+import ReactJson from 'react18-json-view';
 
 export default function MonitorPage() {
   const router = useRouter();
