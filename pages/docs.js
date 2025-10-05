@@ -8,16 +8,16 @@ export default function DocsPage() {
       <Navbar />
       <main className="max-w-4xl mx-auto py-12 px-4">
         <header className="mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">GitBase Documentation</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Vorbase Documentation</h1>
           <p className="text-xl text-gray-600">
-            Panduan lengkap untuk menggunakan platform GitBase dan API-nya.
+            Panduan lengkap untuk menggunakan platform Vorbase dan API-nya.
           </p>
         </header>
 
         <section className="mb-12">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">Apa itu GitBase?</h2>
+          <h2 className="text-3xl font-semibold text-gray-800 mb-4">Apa itu Vorbase?</h2>
           <p className="text-gray-600 leading-relaxed mb-4">
-            GitBase adalah platform database NoSQL yang menggunakan repository GitHub Anda sebagai backend. Setiap database yang Anda buat disimpan sebagai file JSON tunggal di repository GitHub Anda, memberikan Anda kontrol penuh, versi control, dan aksesibilitas publik yang mudah.
+            Vorbase adalah platform database NoSQL. Setiap database yang Anda buat disimpan sebagai file JSON tunggal di repository, memberikan Anda kontrol penuh, versi control, dan aksesibilitas publik yang mudah.
           </p>
           <p className="text-gray-600 leading-relaxed">
             Ini adalah solusi yang ideal untuk proyek-proyek kecil, prototipe, atau aplikasi yang membutuhkan database sederhana tanpa harus mengatur server database yang kompleks.
