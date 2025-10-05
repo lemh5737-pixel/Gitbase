@@ -1,3 +1,4 @@
+// pages/index.js
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 
@@ -12,11 +13,23 @@ export default function Home() {
         <p className="text-xl text-gray-600 mb-8">
           Platform database NoSQL yang menggunakan repository GitHub sebagai backendnya. Simpan data Anda sebagai file JSON dengan mudah dan aman.
         </p>
-        <Link href="/login">
-          <button className="bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg">
-            Get Started
-          </button>
-        </Link>
+        
+        {/* --- PERUBAHAN DIMULAI DI SINI --- */}
+        {/* Menampilkan dua tombol: Register dan Login */}
+        <div className="space-x-4">
+          <Link href="/register">
+            <button className="bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg">
+              Register
+            </button>
+          </Link>
+          <Link href="/login">
+            <button className="bg-transparent border-2 border-gitbase-blue text-gitbase-blue hover:bg-blue-50 font-bold py-3 px-8 rounded-lg text-lg">
+              Login
+            </button>
+          </Link>
+        </div>
+        {/* --- PERUBAHAN BERAKHIR DI SINI --- */}
+        
       </main>
     </div>
   );
