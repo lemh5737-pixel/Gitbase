@@ -24,7 +24,7 @@ export default function Home() {
               <span className="text-4xl md:text-6xl text-gray-400">Vortex Database</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-              Platform database NoSQL yang revolusioner. Manajemen data Anda disimpan langsung di GitHub, memberikan kontrol, versi, dan aksesibilitas tanpa batas.
+              Platform database NoSQL yang revolusioner. Manajemen data Anda disimpan langsung di Database Vortex, memberikan kontrol, versi, dan aksesibilitas tanpa batas.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register">
