@@ -25,6 +25,7 @@ export default function Navbar() {
           </div>
           <div className="flex items-center">
             {user ? (
+              // --- JIKA SUDAH LOGIN ---
               <>
                 <span className="mr-4 text-gray-700">Hi, {user.email}</span>
                 <button
@@ -35,8 +36,7 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              // --- PERUBAHAN DIMULAI DI SINI ---
-              // Menampilkan dua tombol: Login dan Register
+              // --- JIKA BELUM LOGIN ---
               <div className="space-x-2">
                 <Link href="/login">
                   <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
@@ -49,7 +49,6 @@ export default function Navbar() {
                   </button>
                 </Link>
               </div>
-              // --- PERUBAHAN BERAKHIR DI SINI ---
             )}
           </div>
         </div>
