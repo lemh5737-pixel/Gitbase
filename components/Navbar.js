@@ -35,15 +35,25 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <Link href="/login">
-                <button className="bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                  Login
-                </button>
-              </Link>
+              // --- PERUBAHAN DIMULAI DI SINI ---
+              // Menampilkan dua tombol: Login dan Register
+              <div className="space-x-2">
+                <Link href="/login">
+                  <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+                    Login
+                  </button>
+                </Link>
+                <Link href="/register">
+                  <button className="bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    Register
+                  </button>
+                </Link>
+              </div>
+              // --- PERUBAHAN BERAKHIR DI SINI ---
             )}
           </div>
         </div>
       </div>
     </nav>
   );
-              }
+    }
