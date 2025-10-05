@@ -1,8 +1,7 @@
-// pages/dashboard.js
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/Navbar';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -15,7 +14,7 @@ export default function Dashboard() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (loading) return; // Tunggu hingga status loading selesai
+    if (loading) return;
     if (!user) {
       router.push('/login');
     } else {
@@ -23,7 +22,6 @@ export default function Dashboard() {
     }
   }, [user, loading, router]);
 
-  // ... (sisanya kode sama seperti sebelumnya)
   const fetchDatabases = async () => {
     const res = await fetch('/api/list-databases');
     if (res.ok) {
@@ -58,18 +56,19 @@ export default function Dashboard() {
   }
 
   return (
-    // ... (return JSX-nya sama persis seperti sebelumnya)
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="max-w-4xl mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+      <div className="max-w-6xl mx-auto py-8 px-4">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">Dashboard</h1>
+        <p className="text-gray-600 mb-8">Kelola semua database Anda di sini.</p>
         
+        {/* Create Database Form */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4">Create New Database</h2>
+          <h2 className="text-2xl font-semibold mb-4">Buat Database Baru</h2>
           <form onSubmit={handleCreateDb} className="flex flex-col sm:flex-row gap-4">
             <input
               type="text"
-              placeholder="Database Name"
+              placeholder="Nama Database"
               value={dbName}
               onChange={(e) => setDbName(e.target.value)}
               className="flex-grow p-2 border border-gray-300 rounded"
@@ -77,39 +76,50 @@ export default function Dashboard() {
             />
             <input
               type="password"
-              placeholder="Database Password"
+              placeholder="Password Database"
               value={dbPassword}
               onChange={(e) => setDbPassword(e.target.value)}
               className="flex-grow p-2 border border-gray-300 rounded"
               required
             />
             <button type="submit" disabled={isLoading} className="bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-2 px-6 rounded disabled:opacity-50">
-              {isLoading ? 'Creating...' : 'Create'}
+              {isLoading ? 'Membuat...' : 'Buat'}
             </button>
           </form>
           {message && <p className={`mt-4 text-center ${message.includes('Error') ? 'text-red-500' : 'text-green-500'}`}>{message}</p>}
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Your Databases</h2>
+        {/* Database List */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Database Anda</h2>
           {databases.length === 0 ? (
-            <p className="text-gray-500">You haven't created any databases yet.</p>
+            <div className="bg-white p-6 rounded-lg shadow-md text-center text-gray-500">
+              Anda belum memiliki database. Buat satu untuk memulai!
+            </div>
           ) : (
-            <ul className="space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {databases.map((db) => (
-                <li key={db.name} className="flex justify-between items-center p-3 border rounded-lg hover:bg-gray-100">
-                  <span className="font-medium">{db.name}.json</span>
-                  <Link href={`/docs/${db.name}`}>
-                    <button className="bg-gray-700 hover:bg-gray-800 text-white font-bold py-1 px-4 rounded text-sm">
-                      View Docs
-                    </button>
-                  </Link>
-                </li>
+                <div key={db.name} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{db.name}</h3>
+                  <p className="text-gray-500 text-sm mb-4">{db.name}.json</p>
+                  <div className="flex flex-col space-y-2">
+                    <Link href={`/dashboard/monitor/${db.name}`}>
+                      <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm">
+                        📊 Monitor
+                      </button>
+                    </Link>
+                    <Link href={`/docs/${db.name}`}>
+                      <button className="w-full bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded text-sm">
+                        📖 Lihat Docs
+                      </button>
+                    </Link>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </div>
       </div>
     </div>
   );
-                                             }
+      }
