@@ -1,7 +1,8 @@
+// pages/dashboard.js
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext'; // Path ini sudah benar
 import { useRouter } from 'next/router';
-import Navbar from '../../components/Navbar';
+import Navbar from '../components/Navbar'; // 🔥 PERBAIKAN DI SINI
 import Link from 'next/link';
 
 export default function Dashboard() {
