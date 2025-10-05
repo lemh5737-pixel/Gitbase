@@ -1,25 +1,34 @@
+// pages/api/read.js
+import { Octokit } from '@octokit/rest';
+
+const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
   const { db, password, key } = req.body;
-  const url = `https://raw.githubusercontent.com/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/main/${db}.json`;
+  const path = `${db}.json`;
 
   try {
-    const fetchRes = await fetch(url);
-    if (!fetchRes.ok) {
-      return res.status(404).json({ message: 'Database not found' });
-    }
+    // 1. Ambil file menggunakan GitHub REST API (sama seperti di api/add.js)
+    const { data: file } = await octokit.rest.repos.getContent({
+      owner: process.env.GITHUB_OWNER,
+      repo: process.env.GITHUB_REPO,
+      path,
+    });
 
-    const dbContent = await fetchRes.json();
+    // 2. Dekode konten file dari base64
+    const content = Buffer.from(file.content, 'base64').toString('utf-8');
+    const dbContent = JSON.parse(content);
 
-    // Verify password
+    // 3. Verifikasi password database
     if (dbContent.meta.password !== password) {
       return res.status(401).json({ message: 'Invalid database password' });
     }
 
-    // Return data
+    // 4. Kembalikan data yang diminta
     if (key) {
       const keys = key.split('.');
       let result = dbContent.data;
@@ -32,6 +41,11 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Failed to read data' });
+    // Tangani error spesifik dari GitHub
+    if (error.status === 404) {
+      res.status(404).json({ message: 'Database not found' });
+    } else {
+      res.status(500).json({ message: 'Failed to read data' });
+    }
   }
 }
