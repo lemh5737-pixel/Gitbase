@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^20.0.2",
-    "react18-json-view": "^1.0.6",
+    "react18-json-view": "^0.2.3",
     "firebase": "^10.7.1",
     "next": "14.0.4",
     "react": "^18",
