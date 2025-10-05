@@ -1,6 +1,10 @@
+// pages/register.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import Navbar from '../components/Navbar';
+import { auth, db } from '../lib/firebase';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -12,17 +16,20 @@ export default function Register() {
     e.preventDefault();
     setError('');
 
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      // Buat user di Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-    const data = await res.json();
-    if (res.ok) {
+      // (Opsional) Buat dokumen user di Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        createdAt: new Date(),
+      });
+
       router.push('/login');
-    } else {
-      setError(data.message);
+    } catch (err) {
+      setError(err.message);
     }
   };
 
