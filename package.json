@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm install --legacy-peer-deps && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@octokit/rest": "^20.0.2",
-    "react-json-view": "^1.21.3",
+    "react18-json-view": "^1.0.6",
     "firebase": "^10.7.1",
     "next": "14.0.4",
     "react": "^18",
