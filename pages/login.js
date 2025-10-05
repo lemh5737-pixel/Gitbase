@@ -1,7 +1,9 @@
+// pages/login.js
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import Navbar from '../components/Navbar';
+import { auth } from '../lib/firebase';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,16 +15,11 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result.ok) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       router.push('/dashboard');
-    } else {
-      setError('Email atau password salah.');
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -56,4 +53,4 @@ export default function Login() {
       </div>
     </div>
   );
-              }
+          }
