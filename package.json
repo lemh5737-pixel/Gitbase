@@ -10,9 +10,8 @@
   },
   "dependencies": {
     "@octokit/rest": "^20.0.2",
-    "bcryptjs": "^2.4.3",
+    "firebase": "^10.7.1",
     "next": "14.0.4",
-    "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18"
   },
