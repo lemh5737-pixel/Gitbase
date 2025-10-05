@@ -1,11 +1,12 @@
+// pages/dashboard.js
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
 
 export default function Dashboard() {
-  const { data: session, status } = useSession();
+  const { user, loading } = useAuth();
   const router = useRouter();
   const [databases, setDatabases] = useState([]);
   const [dbName, setDbName] = useState('');
@@ -14,14 +15,15 @@ export default function Dashboard() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    if (loading) return; // Tunggu hingga status loading selesai
+    if (!user) {
       router.push('/login');
-    }
-    if (status === 'authenticated') {
+    } else {
       fetchDatabases();
     }
-  }, [status, router]);
+  }, [user, loading, router]);
 
+  // ... (sisanya kode sama seperti sebelumnya)
   const fetchDatabases = async () => {
     const res = await fetch('/api/list-databases');
     if (res.ok) {
@@ -38,7 +40,7 @@ export default function Dashboard() {
     const res = await fetch('/api/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dbName, dbPassword, ownerEmail: session.user.email }),
+      body: JSON.stringify({ dbName, dbPassword, ownerEmail: user.email }),
     });
 
     const data = await res.json();
@@ -46,22 +48,22 @@ export default function Dashboard() {
     if (res.ok) {
       setDbName('');
       setDbPassword('');
-      fetchDatabases(); // Refresh list
+      fetchDatabases();
     }
     setIsLoading(false);
   };
-
-  if (status === 'loading') {
+  
+  if (loading) {
     return <p>Loading...</p>;
   }
 
   return (
+    // ... (return JSX-nya sama persis seperti sebelumnya)
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="max-w-4xl mx-auto py-8 px-4">
         <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
         
-        {/* Create Database Form */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
           <h2 className="text-xl font-semibold mb-4">Create New Database</h2>
           <form onSubmit={handleCreateDb} className="flex flex-col sm:flex-row gap-4">
@@ -88,7 +90,6 @@ export default function Dashboard() {
           {message && <p className={`mt-4 text-center ${message.includes('Error') ? 'text-red-500' : 'text-green-500'}`}>{message}</p>}
         </div>
 
-        {/* Database List */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Your Databases</h2>
           {databases.length === 0 ? (
@@ -111,4 +112,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-            }
+                                             }
