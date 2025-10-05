@@ -10,26 +10,33 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
 
     try {
-      // Buat user di Firebase Auth
+      // 1. Buat user di Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // (Opsional) Buat dokumen user di Firestore
+      // 2. (Opsional tapi direkomendasikan) Buat dokumen profil user di Firestore
+      // Ini berguna jika Anda ingin menyimpan data tambahan tentang user
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         createdAt: new Date(),
       });
 
-      router.push('/login');
+      // 3. Arahkan user ke halaman login setelah registrasi berhasil
+      router.push('/login?message=registration-success');
     } catch (err) {
+      // Tangani error (misal: email sudah terdaftar, password terlalu lemah)
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -38,8 +45,10 @@ export default function Register() {
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-96">
-          <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">Buat Akun Baru</h2>
+          
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          
           <input
             type="email"
             placeholder="Email"
@@ -50,14 +59,19 @@ export default function Register() {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Password (minimal 6 karakter)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded mb-6"
             required
+            minLength={6}
           />
-          <button type="submit" className="w-full bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-2 rounded">
-            Register
+          <button 
+            type="submit" 
+            disabled={isLoading}
+            className="w-full bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-2 rounded disabled:opacity-50"
+          >
+            {isLoading ? 'Mendaftar...' : 'Register'}
           </button>
         </form>
       </div>
