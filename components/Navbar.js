@@ -5,70 +5,47 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 
 export default function Navbar() {
-  // Mengambil status user dari context Firebase
   const { user } = useAuth();
-
-  // Fungsi untuk menangani logout
-  const handleLogout = () => {
-    signOut(auth);
-  };
+  const handleLogout = () => signOut(auth);
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-vorbase-gray/80 backdrop-blur-md border-b border-vorbase-gray-light sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          {/* Bagian Kiri: Logo dan Link Navigasi Utama */}
-          <div className="flex space-x-8 items-center">
-            <Link href="/" className="text-xl font-bold text-gitbase-blue">
-              GitBase
+          <div className="flex items-center space-x-8">
+            <Link href="/" className="flex items-center space-x-2">
+              <span className="text-2xl font-bold text-vorbase-violet-500">VOR</span>
+              <span className="text-2xl font-light text-gray-400">BASE</span>
             </Link>
-            <Link href="/" className="text-gray-700 hover:text-gitbase-blue transition-colors">
-              Home
-            </Link>
-            
-            {/* Link Dashboard hanya muncul jika user sudah login */}
-            {user && (
-              <Link href="/dashboard" className="text-gray-700 hover:text-gitbase-blue transition-colors">
-                Dashboard
-              </Link>
-            )}
-            
-            <Link href="/docs" className="text-gray-700 hover:text-gitbase-blue transition-colors">
-              Docs
-            </Link>
+            <div className="hidden md:flex space-x-6">
+              <Link href="/" className="text-gray-300 hover:text-white transition-colors">Home</Link>
+              {user && <Link href="/dashboard" className="text-gray-300 hover:text-white transition-colors">Dashboard</Link>}
+              <Link href="/docs" className="text-gray-300 hover:text-white transition-colors">Docs</Link>
+            </div>
           </div>
-
-          {/* Bagian Kanan: Aksi User (Login/Register atau Logout) */}
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
             {user ? (
-              // --- JIKA USER SUDAH LOGIN ---
               <>
-                <span className="mr-4 text-gray-700">Hi, {user.email}</span>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors"
-                >
+                <span className="text-sm text-gray-400 hidden sm:block">Hi, {user.email}</span>
+                <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
                   Logout
                 </button>
               </>
             ) : (
-              // --- JIKA USER BELUM LOGIN ---
-              <div className="space-x-2">
+              <>
                 <Link href="/login">
-                  <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors">
-                    Login
-                  </button>
+                  <button className="text-gray-300 hover:text-white font-semibold py-2 px-4 transition-colors">Login</button>
                 </Link>
                 <Link href="/register">
-                  <button className="bg-gitbase-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors">
+                  <button className="bg-vorbase-violet-600 hover:bg-vorbase-violet-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
                     Register
                   </button>
                 </Link>
-              </div>
+              </>
             )}
           </div>
         </div>
       </div>
     </nav>
   );
-              }
+                }
