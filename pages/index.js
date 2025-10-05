@@ -8,10 +8,10 @@ export default function Home() {
       <Navbar />
       <main className="max-w-4xl mx-auto py-20 px-4 text-center">
         <h1 className="text-5xl font-bold text-gray-900 mb-4">
-          GitBase: Database Anda di GitHub
+          VorBase: Vortex Database 
         </h1>
         <p className="text-xl text-gray-600 mb-8">
-          Platform database NoSQL yang menggunakan repository GitHub sebagai backendnya. Simpan data Anda sebagai file JSON dengan mudah dan aman.
+          Platform database NoSQL. Simpan data Anda sebagai file JSON dengan mudah dan aman.
         </p>
         
         {/* --- PERUBAHAN DIMULAI DI SINI --- */}
