@@ -1,8 +1,15 @@
+// components/Navbar.js
 import Link from 'next/link';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useAuth } from '../context/AuthContext';
+import { signOut } from 'firebase/auth';
+import { auth } from '../lib/firebase';
 
 export default function Navbar() {
-  const { data: session, status } = useSession();
+  const { user } = useAuth();
+
+  const handleLogout = () => {
+    signOut(auth);
+  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -13,16 +20,15 @@ export default function Navbar() {
               GitBase
             </Link>
             <Link href="/" className="text-gray-700 hover:text-gitbase-blue">Home</Link>
-            {session && <Link href="/dashboard" className="text-gray-700 hover:text-gitbase-blue">Dashboard</Link>}
+            {user && <Link href="/dashboard" className="text-gray-700 hover:text-gitbase-blue">Dashboard</Link>}
             <Link href="/docs" className="text-gray-700 hover:text-gitbase-blue">Docs</Link>
           </div>
           <div className="flex items-center">
-            {status === 'loading' && <p>Loading...</p>}
-            {session ? (
+            {user ? (
               <>
-                <span className="mr-4 text-gray-700">Hi, {session.user.email}</span>
+                <span className="mr-4 text-gray-700">Hi, {user.email}</span>
                 <button
-                  onClick={() => signOut()}
+                  onClick={handleLogout}
                   className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
                 >
                   Logout
@@ -40,4 +46,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-    }
+              }
